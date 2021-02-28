@@ -13,47 +13,28 @@ typedef struct Router
     int *T;
 } Router;
 
-void bellman(Router *rt, int index, int n, int w[n][n])
+int bellman(int index, int n, Router *rt[n])
 {
-    for (int j = 0; j < n; j++)
+    int changeFlag = 0;
+    // For every destination
+    for (int v = 0; v < n; v++)
     {
-        if (index == j)
-        {
-            rt->D[j] = 0;
-        }
-        else
-        {
-            rt->D[j] = INT_MAX;
-        }
-        rt->T[j] = -1;
-    }
-    for (int i = 0; i < n - 1; i++)
-    {
+        // For every neighbour
         for (int u = 0; u < n; u++)
         {
-            for (int v = 0; v < n; v++)
+            // If no route to destination, skip neighbour
+            if (rt[index]->D[u] == INT_MAX || rt[u]->D[v] == INT_MAX)
+                continue;
+            if (rt[index]->D[v] > rt[index]->D[u] + rt[u]->D[v])
             {
-                if (w[u][v] == INT_MAX)
-                    continue;
-                int weight = w[u][v];
-                if (rt->D[u] != INT_MAX && rt->D[u] + weight < rt->D[v])
-                {
-                    rt->D[v] = rt->D[u] + weight;
-                    if (u != index)
-                        rt->T[v] = u;
-                }
+                rt[index]->D[v] = rt[index]->D[u] + rt[u]->D[v];
+                rt[index]->T[v] = u;
+                changeFlag = 1;
             }
         }
     }
 
-    printf("Dest\tDist\tVia\n");
-    for (int i = 0; i < n; i++)
-    {
-        if (rt->T[i] == -1)
-            printf("%d\t%d\t-\n", i, rt->D[i]);
-        else
-            printf("%d\t%d\t%d\n", i, rt->D[i], rt->T[i]);
-    }
+    return changeFlag;
 }
 
 void main()
@@ -86,27 +67,46 @@ void main()
     }
 
     // initialize Vector table for all routers
-    Router rt[n];
+    Router *rt[n];
     for (int i = 0; i < n; i++)
     {
-        rt[i].D = malloc(n * sizeof(int));
-        rt[i].T = malloc(n * sizeof(int));
+        rt[i] = (Router *)malloc(sizeof(Router));
+        rt[i]->D = malloc(n * sizeof(int));
+        rt[i]->T = malloc(n * sizeof(int));
     }
 
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
         {
-            if (i == j)
-                rt[i].D[j] = 0;
-            else
-                rt[i].D[j] = INT_MAX;
+            rt[i]->D[j] = w[i][j];
+            rt[i]->T[j] = -1;
         }
 
+    while (1)
+    {
+        int change = 0;
+        // execute bellman-ford algorithm on each router to calculate distances
+        for (int i = 0; i < n; i++)
+        {
+            change += bellman(i, n, rt);
+        }
+        // if there were no changes, break the loop
+        if (change == 0)
+            break;
+    }
+
+    // Display results
     for (int i = 0; i < n; i++)
     {
         printf("--------------\n");
         printf("For Router %d\n", i);
-        // execute bellman-ford algorithm on each router to calculate distances
-        bellman(&rt[i], i, n, w);
+        printf("Dest\tDist\tVia\n");
+        for (int j = 0; j < n; j++)
+        {
+            if (rt[i]->T[j] == -1)
+                printf("%d\t%d\t-\n", j, rt[i]->D[j]);
+            else
+                printf("%d\t%d\t%d\n", j, rt[i]->D[j], rt[i]->T[j]);
+        }
     }
 }
