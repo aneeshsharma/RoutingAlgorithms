@@ -96,6 +96,7 @@ void main()
     }
 
     // Display results
+    printf("Calculated distances and predecessors -\n");
     for (int i = 0; i < n; i++)
     {
         printf("--------------\n");
