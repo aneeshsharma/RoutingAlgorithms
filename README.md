@@ -48,3 +48,12 @@ um vm wm
     -   `ui` - the source vertex/router
     -   `vi` - the destination vertex/router
     -   `wi` - the weight of the edge/link
+
+### Example Inputs
+
+There are 2 example inputs included in the `example_inputs/` directory. You can use the inputs to test the program as -
+
+```
+$ ./lsr.o < example_inputs/in1.txt
+$ ./dvr.o < example_inputs/in1.txt
+```
