@@ -5,7 +5,7 @@ Implementation and simulation of the following routing algorithm in C -
 -   Distance Vector Routing - using Bellman Ford Algorithm
 -   Link State Routing - using Dijkstra's Algorithm
 
-## Prerquisite
+## Prerequisite
 
 To run this program, you need the following -
 
