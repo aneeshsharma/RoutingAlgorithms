@@ -1,20 +1,20 @@
 # Routing Algorithms implemented in C
 
-Implementation and simulation of the following routing algorithm in C -
+Implementation and simulation of the following routing algorithm in C
 
 -   Distance Vector Routing - using Bellman Ford Algorithm
 -   Link State Routing - using Dijkstra's Algorithm
 
 ## Prerequisite
 
-To run this program, you need the following -
+To run this program, you need the following-
 
 -   `gcc` - The GNU Compiler Collection
 -   `make` - The make utility (optional)
 
 ## Usage
 
-To run the program, firstly clone this repository and change the directory to it -
+To run the program, firstly clone this repository and change the directory to it
 
 ```
 $ git clone https://github.com/aneeshsharma/RoutingAlgorithms
@@ -31,7 +31,7 @@ You can run each of the programs using `./dvr.o` and `./lsr.o`.
 
 ### Input Format
 
-For each of the programs, the input format is -
+For each of the programs, the input format is
 
 ```
 n m
@@ -51,7 +51,7 @@ um vm wm
 
 ### Example Inputs
 
-There are 2 example inputs included in the `example_inputs/` directory. You can use the inputs to test the program as -
+There are 2 example inputs included in the `example_inputs/` directory. You can use the inputs to test the program as
 
 ```
 $ ./lsr.o < example_inputs/in1.txt
