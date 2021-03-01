@@ -1,4 +1,5 @@
 /* Distance Vector Algorithm implementation using Bellman Ford algorithm
+ * This program simulates creation of the routing table on different routers in a network
  * Author   -   Anish Sharma
  * Date     -   28-02-2021
  */
@@ -7,6 +8,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
+// Representative of a router in the network
 typedef struct Router
 {
     int *D;
@@ -28,7 +30,7 @@ int bellman(int index, int n, Router *rt[n])
             if (rt[index]->D[v] > rt[index]->D[u] + rt[u]->D[v])
             {
                 rt[index]->D[v] = rt[index]->D[u] + rt[u]->D[v];
-                rt[index]->T[v] = u;
+                rt[index]->T[v] = rt[index]->T[u];
                 changeFlag = 1;
             }
         }
@@ -39,6 +41,8 @@ int bellman(int index, int n, Router *rt[n])
 
 void main()
 {
+    // n - number of vertices/routers
+    // m - number of links/edges
     int n, m;
 
     // Take input for number of vertices and number of links
@@ -79,7 +83,7 @@ void main()
         for (int j = 0; j < n; j++)
         {
             rt[i]->D[j] = w[i][j];
-            rt[i]->T[j] = -1;
+            rt[i]->T[j] = j;
         }
 
     while (1)
@@ -95,7 +99,8 @@ void main()
             break;
     }
 
-    // Display results
+    // Display results - routing table for each router
+    printf("Distance Vector Routing - Using Bellman Ford algorithm\n");
     printf("Calculated distances and predecessors -\n");
     for (int i = 0; i < n; i++)
     {
@@ -104,7 +109,7 @@ void main()
         printf("Dest\tDist\tVia\n");
         for (int j = 0; j < n; j++)
         {
-            if (rt[i]->T[j] == -1)
+            if (rt[i]->T[j] == j)
                 printf("%d\t%d\t-\n", j, rt[i]->D[j]);
             else
                 printf("%d\t%d\t%d\n", j, rt[i]->D[j], rt[i]->T[j]);
